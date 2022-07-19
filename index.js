@@ -80,7 +80,7 @@ app.get('/get', (req, res) => {
   if(!instance){res.status(404); res.send("Instance not found"); return}
   instance.resetLastUpdate()
   if(req.query.format == "json"){
-    answer()
+    answer(instance,res)
   }else if(req.query.format =="cfg"){
     res.send(instance.getConfig())
   }else{
