@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(cors());
 app.options('*', cors());
 
-const port = 80
+const port = 3000
 
 const instances = {}
 
