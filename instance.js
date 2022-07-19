@@ -13,7 +13,7 @@ function Instance(token,senderVersion,language) {
   
   this.config = {
     token: token, 
-    serverLink: "https://OBS-Music-Display.omega77073.repl.co",
+    serverLink: "http://129.151.84.152:3000",
     youtube:{
       pausedText:"The music is currently paused",
       displayTitle:true,
@@ -78,33 +78,45 @@ method.load = function(string){
 
   return this
 }
+function multiIndex(obj,is) {  // obj,['1','2','3'] -> ((obj['1'])['2'])['3']
+    return is.length ? multiIndex(obj[is[0]],is.slice(1)) : obj
+}
+function pathIndex(obj,is) {   // obj,'1.2.3' -> multiIndex(obj,['1','2','3'])
+    return multiIndex(obj,is.split('.'))
+}
 
 method.getHtml = function(){
  const instance = this
-  let theme = themes.getTheme(this.config.themeId)
-  
+  if(instance.paused == false){
+   theme = themes.getTheme(this.config.youtube.themeId)
+  }else{
+    theme = themes.getTheme(this.config.youtube.themeId + "-paused")
+  }
   function replaceString(_, str) {
-    let txt
-      txt = str ? instance[str] : "";
+    let data = pathIndex(instance, str)
+      txt = data ? data : "";
     return txt;
   }
 
   function replaceVisibility(_, str){
-     return "visibility: " + ((instance[str]) ? "visible" : "hidden") + ";"
+     data = pathIndex(instance, str)
+     return "visibility: " + ((data==true) ? "visible" : "hidden") + ";"
   }
-  var messageRegex = /__DATA_(\w+)__/g;
+    
+  var messageRegex = /__DATA_(\S+)__/g;
   theme = theme.replace(
     messageRegex,
     replaceString
   ); 
 
-  var messageRegex = /__EXT_(\w+)__/g;
+  var messageRegex = /__EXT_(\S+)__/g;
   theme = theme.replace(
     messageRegex,
     replaceVisibility
   ); 
-
   return theme
+  
+  
 }
 
 method.resetLastUpdate = function(){

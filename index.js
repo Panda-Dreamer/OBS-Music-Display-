@@ -8,9 +8,6 @@ const themes = require("./themes.js")
 const Instance = require("./instance.js")
 
 
-const Database = require("@replit/database")
-const db = new Database()
-
 const app = express()
 app.use(express.json())
 
