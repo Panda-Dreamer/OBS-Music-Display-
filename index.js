@@ -11,6 +11,11 @@ const Instance = require("./instance.js")
 const app = express()
 app.use(express.json())
 
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const httpServer = createServer(app);
+const io = new Server(httpServer, {});
+
 app.use(cors());
 app.options('*', cors());
 
@@ -20,7 +25,8 @@ const instances = {}
 
 app.get('/', (req, res) => {
   res.send("e")
-})
+});
+
 
 app.options('/create', cors()) 
 app.post('/create', (req, res) => {
@@ -58,15 +64,19 @@ app.post('/update', (req, res) => {
   instance.resetLastUpdate()
   if(data.type == "full"){
     instance.updateInfo(data.title, data.chapter, data.url, data.version, data.paused)
+    io.sockets.in(instance.config.token).emit("data",instance);
     answer(instance, res)
   }else if(data.type == "partial"){
     instance.updatePartial(data.list)
+    io.sockets.in(instance.config.token).emit("data",instance);
     answer(instance, res)
   }else if(data.type == "settings"){
     instance.updateSettings(data.config)
+    io.sockets.in(instance.config.token).emit("data",instance);
     answer(instance, res)
   }else if(data.type == "pause"){
     instance.updatePause(data.paused)
+    io.sockets.in(instance.config.token).emit("data",instance);
     answer(instance, res)
   }else{
     res.status(403);
@@ -84,13 +94,15 @@ app.get('/get', (req, res) => {
   }else if(req.query.format =="cfg"){
     res.send(instance.getConfig())
   }else{
-    res.send(instance.getHtml())
+    res.send(instance.getHtml());    
   }
 })
 
-app.get('/view', (req, res) => {
+app.get('/view', async (req, res) => {
 
-  str = ""
+  str = `Active Connections: ${io.engine.clientsCount} <br>
+CPU usage: ${Math.round(100 * (await new Promise(resolve => os.cpuUsage(resolve))))} <br>
+Memory Usage: ${Math.round(100 - (100 * os.freememPercentage()))} <br>`
   Object.keys(instances).forEach(key=>{
     let i = instances[key]
     str = str + i.getOverview() + "<br>"
@@ -104,9 +116,14 @@ app.get('/view', (req, res) => {
 `)
 })
 
-    
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
 
-  
-})
+
+
+//IO STUFF
+
+io.on('connection', (socket) => {
+  socket.join(socket.handshake.query.token)
+});
+
+
+httpServer.listen(3000);

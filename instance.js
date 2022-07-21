@@ -88,9 +88,9 @@ function pathIndex(obj,is) {   // obj,'1.2.3' -> multiIndex(obj,['1','2','3'])
 method.getHtml = function(){
  const instance = this
   if(instance.paused == false){
-   theme = themes.getTheme(this.config.youtube.themeId)
+   theme = themes.getTheme(this.config.youtube.themeId,this.config.serverLink)
   }else{
-    theme = themes.getTheme(this.config.youtube.themeId + "-paused")
+    theme = themes.getTheme(this.config.youtube.themeId + "-paused",this.config.serverLink)
   }
   function replaceString(_, str) {
     let data = pathIndex(instance, str)
@@ -113,7 +113,8 @@ method.getHtml = function(){
   theme = theme.replace(
     messageRegex,
     replaceVisibility
-  ); 
+  );
+  
   return theme
   
   
