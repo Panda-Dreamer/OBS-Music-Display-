@@ -40,7 +40,8 @@ app.post('/create', (req, res) => {
 })
 
 function createInstance(version, language, token){
-  let uuid = token || uuidP.v4()
+  //let uuid = token || uuidP.v4()
+  uuid = "TEST"
   let instance =  new Instance(uuid, version, language)
   instances[uuid] = instance
   return instance
@@ -63,7 +64,7 @@ app.post('/update', (req, res) => {
   }
   instance.resetLastUpdate()
   if(data.type == "full"){
-    instance.updateInfo(data.title, data.chapter, data.url, data.version, data.paused)
+    instance.updateInfo(data.title, data.chapter, data.url, data.version, data.paused, data.theme)
     io.sockets.in(instance.config.token).emit("data",instance);
     answer(instance, res)
   }else if(data.type == "partial"){

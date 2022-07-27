@@ -20,7 +20,8 @@ h2 {color: rgba(247, 251, 255, 0.9); font-size:55px; background-color: rgba(0, 0
 a {color: rgba(211, 224, 237,0.9)};`,
 
     "body":`<div>
-<h2 style="__EXT_config.youtube.displayPause__">__DATA_config.youtube.pausedText__</h2>
+  <h1 style="visibility: hidden" id="title"></h1
+<h2 style="__EXT_config.youtube.displayPause__" id ="chapter">__DATA_config.youtube.pausedText__</h2>
 </div>`
   },
 }
