@@ -57,7 +57,7 @@ function Instance(token,senderVersion,language) {
   this.theme = default_theme,
   this.config = {
     token: token, 
-    serverLink: "https://OBS-Music-Display.omega77073.repl.co",
+    serverLink: "http://129.151.84.152:3000",
     youtube:{
       pausedText:"The music is currently paused",
       displayTitle:true,
@@ -72,11 +72,33 @@ function Instance(token,senderVersion,language) {
       displayTitle: true,
       displayAuthor: true,
       pausedText:"The music is currently paused", 
-    }
+    },
+    ytmusic:{
+      themeId: "default",
+      displayPause:true,
+      displayTitle: true,
+      displayAuthor: true,
+      pausedText:"The music is currently paused", 
+    },
+    pretzel:{
+      themeId: "default",
+      displayPause:true,
+      displayTitle: true,
+      displayAuthor: true,
+      pausedText:"The music is currently paused", 
+    },
+    soundcloud:{
+      themeId: "default",
+      displayPause:true,
+      displayTitle: true,
+      displayAuthor: true,
+      pausedText:"The music is currently paused", 
+    },
   },
 
   this.url = "",
   this.paused = false
+  this.platform = "STOPPED"
   
 }
 
@@ -89,13 +111,14 @@ method.updatePause =  function(newState){
   return this
 }
 
-method.updateInfo =  function(title, chapter, url,  version, paused, theme){
+method.updateInfo =  function(title, chapter, url,  version, paused, theme, platform){
   this.chapter = chapter
   this.title = title
   this.url = url
   this.senderVersion = version
   this.paused = paused
-  this.theme = theme
+  this.theme = theme || default_theme
+  this.platform = platform
 }
 
 method.updatePartial = function(data){
@@ -185,7 +208,7 @@ method.getHtml = function(){
 
       socket.on("data", (data) => {
         console.log("Data received:",data)
-        const cfg = data.config.youtube
+        const cfg = data.config[data.platform.toLowerCase()] || {displayTitle:true, displayChapter:true, displayPause:false}
         if(data.paused == false){
         document.getElementById("container").style = "display: block"
         if(data.title == "" || cfg.displayTitle == false){
