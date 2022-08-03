@@ -123,6 +123,11 @@ Memory Usage: ${Math.round(100 - (100 * os.freememPercentage()))} <br>`
 
 io.on('connection', (socket) => {
   socket.join(socket.handshake.query.token)
+  socket.on("refresh", (token) => {
+    let instance = instances[token]
+    if(!instance){return}
+    io.sockets.in(instance.config.token).emit("data",instance);
+  });
 });
 
 

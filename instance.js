@@ -2,50 +2,50 @@ var method = Instance.prototype;
 const themes = require("./themes")
 
 const default_theme = {
-    spacing: 35,
-    containerBackgroundColor: {
-      R: 0,
-      G: 0,
-      B: 0,
-      A: "0",
-    },
-    containerPadding: "0",
-    containerBorderRadius: "0",
-    titleBackgroundColor: {
-      R: 0,
-      G: 0,
-      B: 0,
-      A: "0.7",
-    },
-    titlePadding: "10",
-    titleBorderRadius: "15",
-    titleColor: {
-      R: 255,
-      G: 255,
-      B: 255,
-      A: "1",
-    },
-    titleSize: "60",
-    titleFont: "Arial, Helvetica, sans-serif",
-    subtitleBackgroundColor: {
-      R: 0,
-      G: 0,
-      B: 0,
-      A: "0.7",
-    },
-    subtitlePadding: "10",
-    subtitleBorderRadius: "15",
-    subtitleColor: {
-      R: 255,
-      G: 255,
-      B: 255,
-      A: "1",
-    },
-    subtitleSize: "40",
-    subtitleFont: "Arial, Helvetica, sans-serif",
-  }
+  spacing: 35,
+  containerBackgroundColor: {
+    R: 0,
+    G: 0,
+    B: 0,
+    A: "0",
+  },
+  containerPadding: "0",
+  containerBorderRadius: "0",
+  titleBackgroundColor: {
+    R: 0,
+    G: 0,
+    B: 0,
+    A: "0.7",
+  },
+  titlePadding: "10",
+  titleBorderRadius: "15",
+  titleColor: {
+    R: 255,
+    G: 255,
+    B: 255,
+    A: "1",
+  },
+  titleSize: "60",
+  titleFont: "Arial, Helvetica, sans-serif",
+  subtitleBackgroundColor: {
+    R: 0,
+    G: 0,
+    B: 0,
+    A: "0.7",
+  },
+  subtitlePadding: "10",
+  subtitleBorderRadius: "15",
+  subtitleColor: {
+    R: 255,
+    G: 255,
+    B: 255,
+    A: "1",
+  },
+  subtitleSize: "40",
+  subtitleFont: "Arial, Helvetica, sans-serif",
+}
 
-function Instance(token,senderVersion,language) {
+function Instance(token, senderVersion, language) {
   this.senderVersion = senderVersion
 
   this.created = new Date()
@@ -55,63 +55,64 @@ function Instance(token,senderVersion,language) {
   this.title = ""
   this.language = language || "en"
   this.theme = default_theme,
-  this.config = {
-    token: token, 
-    serverLink: "http://129.151.84.152:3000",
-    youtube:{
-      pausedText:"The music is currently paused",
-      displayTitle:true,
-      displayChapter:true,
-      themeId: "default",
-      displayPause: true,
-      detectPause: true
+    this.config = {
+      token: token,
+      serverLink: "http://129.151.84.152:3000",
+      //serverLink: "https://OBS-Music-Display.omega77073.repl.co",
+      youtube: {
+        pausedText: "The music is currently paused",
+        displayTitle: true,
+        displayChapter: true,
+        themeId: "default",
+        displayPause: true,
+        detectPause: true
+      },
+      spotify: {
+        themeId: "default",
+        displayPause: true,
+        displayTitle: true,
+        displayAuthor: true,
+        pausedText: "The music is currently paused",
+      },
+      ytmusic: {
+        themeId: "default",
+        displayPause: true,
+        displayTitle: true,
+        displayAuthor: true,
+        pausedText: "The music is currently paused",
+      },
+      pretzel: {
+        themeId: "default",
+        displayPause: true,
+        displayTitle: true,
+        displayAuthor: true,
+        pausedText: "The music is currently paused",
+      },
+      soundcloud: {
+        themeId: "default",
+        displayPause: true,
+        displayTitle: true,
+        displayAuthor: true,
+        pausedText: "The music is currently paused",
+      },
     },
-    spotify:{
-      themeId: "default",
-      displayPause:true,
-      displayTitle: true,
-      displayAuthor: true,
-      pausedText:"The music is currently paused", 
-    },
-    ytmusic:{
-      themeId: "default",
-      displayPause:true,
-      displayTitle: true,
-      displayAuthor: true,
-      pausedText:"The music is currently paused", 
-    },
-    pretzel:{
-      themeId: "default",
-      displayPause:true,
-      displayTitle: true,
-      displayAuthor: true,
-      pausedText:"The music is currently paused", 
-    },
-    soundcloud:{
-      themeId: "default",
-      displayPause:true,
-      displayTitle: true,
-      displayAuthor: true,
-      pausedText:"The music is currently paused", 
-    },
-  },
 
-  this.url = "",
-  this.paused = false
+    this.url = "",
+    this.paused = false
   this.platform = "STOPPED"
-  
+
 }
 
 method.getConfig = function() {
-    return this.config
+  return this.config
 };
 
-method.updatePause =  function(newState){
+method.updatePause = function(newState) {
   this.paused = newState
   return this
 }
 
-method.updateInfo =  function(title, chapter, url,  version, paused, theme, platform){
+method.updateInfo = function(title, chapter, url, version, paused, theme, platform) {
   this.chapter = chapter
   this.title = title
   this.url = url
@@ -121,49 +122,49 @@ method.updateInfo =  function(title, chapter, url,  version, paused, theme, plat
   this.platform = platform
 }
 
-method.updatePartial = function(data){
-  data.forEach(setting=>{
+method.updatePartial = function(data) {
+  data.forEach(setting => {
     this[setting.key] = setting.value
   })
 
   return this
 }
 
-method.updateSettings = function(cfg){
+method.updateSettings = function(cfg) {
 
   let token = this.config.token
   let surl = this.config.serverLink
-  
+
   this.config = cfg
 
   this.config.serverLink = surl
   this.config.token = token
 }
 
-method.save = function(){
+method.save = function() {
   return JSON.stringify(this)
 }
 
-method.load = function(string){
+method.load = function(string) {
   data = JSON.parse(string)
-  Object.keys(data).forEach(key=>{
+  Object.keys(data).forEach(key => {
     this[key] = data[key]
   })
   this.lastRequested = new Date(this.lastRequested)
 
   return this
 }
-function multiIndex(obj,is) {  // obj,['1','2','3'] -> ((obj['1'])['2'])['3']
-    return is.length ? multiIndex(obj[is[0]],is.slice(1)) : obj
+function multiIndex(obj, is) {  // obj,['1','2','3'] -> ((obj['1'])['2'])['3']
+  return is.length ? multiIndex(obj[is[0]], is.slice(1)) : obj
 }
-function pathIndex(obj,is) {   // obj,'1.2.3' -> multiIndex(obj,['1','2','3'])
-    return multiIndex(obj,is.split('.'))
+function pathIndex(obj, is) {   // obj,'1.2.3' -> multiIndex(obj,['1','2','3'])
+  return multiIndex(obj, is.split('.'))
 }
 
-method.getHtml = function(){
- const instance = this
- const data = instance.theme || default_theme
-   let html = `
+method.getHtml = function() {
+  const instance = this
+  const data = instance.theme || default_theme
+  let html = `
   <html>
   <head>
   <style id="style">
@@ -205,7 +206,7 @@ method.getHtml = function(){
       let params = (new URL(document.location)).searchParams;
       let token = params.get("token");
       var socket = io("${instance.config.serverLink}?token="+token);
-
+      socket.emit("refresh", token);
       socket.on("data", (data) => {
         console.log("Data received:",data)
         const cfg = data.config[data.platform.toLowerCase()] || {displayTitle:true, displayChapter:true, displayPause:false}
@@ -272,12 +273,12 @@ method.getHtml = function(){
   return html
 }
 
-method.resetLastUpdate = function(){
+method.resetLastUpdate = function() {
   this.lastRequested = new Date()
 }
 
-method.getOverview = function(){
+method.getOverview = function() {
   return `<a href=${this.url}>${this.title}</a>: ${this.chapter}; (${this.senderVersion}, ${this.language})`
 }
-  
-module.exports = Instance;  
+
+module.exports = Instance;
