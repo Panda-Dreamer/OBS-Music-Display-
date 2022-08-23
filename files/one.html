@@ -117,7 +117,7 @@
     let usedPreset = undefined
       let params = (new URL(document.location)).searchParams;
       let token = params.get("token");
-      var socket = io("https://OBS-Music-Display.omega77073.repl.co?token="+token);
+      var socket = io("http://129.151.84.152:3000?token="+token);
       socket.emit("refresh", token);
       socket.on("data", (data) => {
         console.log("Data received:",data)
