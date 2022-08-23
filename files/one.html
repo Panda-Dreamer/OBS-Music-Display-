@@ -81,9 +81,9 @@
             
             color: antiquewhite;
             
-            line-height: 1.5em;
+           
             text-overflow: ellipsis;
-            white-space: initial;
+            
             overflow: hidden;
 
             opacity: 0;
@@ -96,10 +96,15 @@
 
         h1{
             font-size: 50px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         h2{
             font-size: 40px;
+            height: 3em;
+            line-height: 1.5em;
+            white-space: none;
         }
 
         
@@ -111,7 +116,7 @@
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU" class="image" id="cover">
     </div>
     <div class="newContainer" id = "newContainer" style='background-image: linear-gradient(rgba(0, 0, 0, 0.397), rgba(0, 0, 0, 0.400)),url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU");'>
-        <h1 class="text" id="title">Waiting for a new title</h1>
+        <h1 class="text" id="title">Waiting for a new titleaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h1>
         <h2 class="text" id="chapter">Update the informatioon or simply change to a new title. If the issue persists, reload the page</h2>
     </div>
     </div>
@@ -137,6 +142,9 @@
         if(data.paused == false){
         document.getElementById("container").style.display = "flex"
         document.getElementById("title").innerHTML = data.title
+        if(data.chapter.length > 95){
+            data.chapter = data.chapter.slice(0,92)+"..."
+        }
         document.getElementById("chapter").innerHTML = data.chapter
         document.getElementById("cover").style.filter = "brightness(75%)"
         document.getElementById("cover").src = data.imageUrl
