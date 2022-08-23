@@ -1,0 +1,175 @@
+<html>
+<head>
+    <style>
+        .image{
+        
+
+        /*box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);*/
+        filter: brightness(75%);
+        /*animation: GlowChange 5s linear infinite alternate;*/
+
+        width: auto;
+        height: auto;
+        object-position: 50% 50%;
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.411);
+        }
+
+        .imgContainer {
+            width: 300px;
+            height: 300px;
+
+            border-radius: 20px;
+            display: inline-block;
+            overflow: hidden;
+
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes GlowChange {
+            0% {
+                box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);
+            }
+            50% {
+                box-shadow: 0px 0px 15px 5px rgb(17, 177, 38);
+            }
+            100% {
+                box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);
+            }
+        }
+
+        .container{
+            display:flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+            flex-wrap: nowrap;
+        }
+        
+        .newContainer{
+            width: 900px;
+            height: 250px;
+            align-items: center;
+            display: inline-block;
+
+            background-repeat:no-repeat; /* for vertical repeat */
+            background-repeat:no-repeat; /* for horizontal repeat */
+            background-size: cover;
+            background-position: center;
+            
+
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        @keyframes FadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0.9;
+            }
+        }
+
+        .text{
+            padding: 0px;
+            margin: 4px;
+            padding-left: 15px;
+            padding-top: 15px;
+            
+            color: antiquewhite;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+            opacity: 0;
+            animation: FadeIn 1s ease-in-out 1s forwards;
+            transition: all 2s;
+
+            font-family: "Arial, Helvetica, sans-serif";
+        }
+
+        h1{
+            font-size: 50px;
+        }
+
+        h2{
+            font-size: 45px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+    <div class="imgContainer" id="imgContainer">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU" class="image" id="cover">
+    </div>
+    <div class="newContainer" id = "newContainer" style='background-image: linear-gradient(rgba(0, 0, 0, 0.397), rgba(0, 0, 0, 0.400)),url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU");'>
+        <h1 class="text" id="title">Valley of wolves</h1>
+        <h2 class="text" id="chapter">Very long description because tracklist</h2>
+    </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script>
+    let usedPreset = undefined
+      let params = (new URL(document.location)).searchParams;
+      let token = params.get("token");
+      var socket = io("https://OBS-Music-Display.omega77073.repl.co?token="+token);
+      socket.emit("refresh", token);
+      socket.on("data", (data) => {
+        console.log("Data received:",data)
+        if((data.usedPreset != usedPreset) && usedPreset!=undefined){location.reload();}
+        usedPreset = data.usedPreset 
+
+        if(data.platform.toLowerCase() == "youtube"){
+          document.getElementById("cover").style.height = "150%"
+        }else{
+          document.getElementById("cover").style.height = "300px"
+        }
+        const cfg = data.config[data.platform.toLowerCase()] || {displayTitle:true, displayChapter:true, displayPause:false}
+        if(data.paused == false){
+        document.getElementById("container").style.display = "flex"
+        document.getElementById("title").innerHTML = data.title
+        document.getElementById("chapter").innerHTML = data.chapter
+        document.getElementById("cover").style.filter = "brightness(75%)"
+        document.getElementById("cover").src = data.imageUrl
+        document.getElementById("newContainer").style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.600), rgba(0, 0, 0, 0.600)),url("${data.imageUrl}")`
+
+        if(data.title == "" || cfg.displayTitle == false){
+          document.getElementById("title").style.display = "none"
+        }else{
+          document.getElementById("title").innerHTML = data.title
+          document.getElementById("title").style.display = "block"
+        }
+
+
+        if(data.chapter == "" || cfg.displayChapter == false){
+          document.getElementById("chapter").style.display = "none"
+        }else{
+          document.getElementById("chapter").innerHTML = data.chapter
+          document.getElementById("chapter").style.display = "block"
+
+        }
+        }else{
+          if(cfg.displayPause == true){
+            document.getElementById("title").innerHTML = cfg.pausedText
+            document.getElementById("title").style.display = "block"
+            document.getElementById("chapter").style.display = "none"
+            document.getElementById("container").style.display = "flex"
+            document.getElementById("cover").style.filter = "brightness(25%)"
+          }else{
+            document.getElementById("chapter").style.display = "none"
+            document.getElementById("title").style.display = "none"
+            document.getElementById("container").style.display = "none"
+          }
+        }
+
+        
+        
+    })
+    </script>
+</body>
+</html>

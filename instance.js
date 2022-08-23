@@ -1,5 +1,6 @@
 var method = Instance.prototype;
 const themes = require("./themes")
+const fs = require("fs")
 
 const default_theme = {
   spacing: 35,
@@ -57,8 +58,8 @@ function Instance(token, senderVersion, language) {
   this.theme = default_theme,
     this.config = {
       token: token,
-      serverLink: "http://129.151.84.152:3000",
-      //serverLink: "https://OBS-Music-Display.omega77073.repl.co",
+      //serverLink: "http://129.151.84.152:3000",
+      serverLink: "https://OBS-Music-Display.omega77073.repl.co",
       youtube: {
         pausedText: "The music is currently paused",
         displayTitle: true,
@@ -112,7 +113,7 @@ method.updatePause = function(newState) {
   return this
 }
 
-method.updateInfo = function(title, chapter, url, version, paused, theme, platform) {
+method.updateInfo = function(title, chapter, url, version, paused, theme, platform, imageUrl, usedPreset) {
   this.chapter = chapter
   this.title = title
   this.url = url
@@ -120,6 +121,8 @@ method.updateInfo = function(title, chapter, url, version, paused, theme, platfo
   this.paused = paused
   this.theme = theme || default_theme
   this.platform = platform
+  this.imageUrl =  imageUrl
+  this.usedPreset = usedPreset
 }
 
 method.updatePartial = function(data) {
@@ -163,12 +166,16 @@ function pathIndex(obj, is) {   // obj,'1.2.3' -> multiIndex(obj,['1','2','3'])
 
 method.getHtml = function() {
   const instance = this
+  if(instance.usedPreset == "platformDefined"){
+    return fs.readFileSync(`./files/one.html`,'utf8').toString()
+  }
   const data = instance.theme || default_theme
+  
   let html = `
   <html>
   <head>
   <style id="style">
-  h1 {
+  h1,a {
     color: rgba(${data.titleColor.R}, ${data.titleColor.G}, ${data.titleColor.B}, ${data.titleColor.A}); 
     font-size:${data.titleSize}px; 
     background-color: rgba(${data.titleBackgroundColor.R}, ${data.titleBackgroundColor.G}, ${data.titleBackgroundColor.B}, ${data.titleBackgroundColor.A});   
@@ -205,10 +212,13 @@ method.getHtml = function() {
     <script>
       let params = (new URL(document.location)).searchParams;
       let token = params.get("token");
+      let usedPreset = undefined
       var socket = io("${instance.config.serverLink}?token="+token);
       socket.emit("refresh", token);
       socket.on("data", (data) => {
         console.log("Data received:",data)
+        if((data.usedPreset != usedPreset) && usedPreset!=undefined){location.reload();}
+        usedPreset = data.usedPreset
         const cfg = data.config[data.platform.toLowerCase()] || {displayTitle:true, displayChapter:true, displayPause:false}
         if(data.paused == false){
         document.getElementById("container").style = "display: block"
