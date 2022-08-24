@@ -56,7 +56,6 @@ app.options('/update', cors()) // enable pre-flight request for POST request
 app.post('/update', (req, res) => {
   let data = req.body
   let instance
-  console.log("Updating instance:",req.body.token)
   if(data.config){
     instance =  instances[data.token] || instances[data.config.token] || createInstance(data.version, data.language, req.body.config.token)
   }else{
@@ -124,7 +123,6 @@ Memory Usage: ${Math.round(100 - (100 * os.freememPercentage()))} <br>`
 
 io.on('connection', (socket) => {
   socket.join(socket.handshake.query.token)
-  console.log("New socket",socket.handshake.query.token)
   socket.on("refresh", (token) => {
     let instance = instances[token]
     if(!instance){return}

@@ -58,8 +58,8 @@ function Instance(token, senderVersion, language) {
   this.theme = default_theme,
     this.config = {
       token: token,
-      //serverLink: "http://129.151.84.152:3000",
       serverLink: "http://129.151.84.152:3000",
+      //serverLink: "https://OBS-Music-Display.omega77073.repl.co",
       youtube: {
         pausedText: "The music is currently paused",
         displayTitle: true,

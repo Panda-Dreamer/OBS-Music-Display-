@@ -1,187 +1,307 @@
 <html>
+
 <head>
-    <style>
-        .image{
-        
+  <style>
+    .image {
 
-        /*box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);*/
-        filter: brightness(75%);
-        /*animation: GlowChange 5s linear infinite alternate;*/
 
-        width: auto;
-        height: auto;
-        object-position: 50% 50%;
-        position: relative;
-        background-color: rgba(0, 0, 0, 0.411);
-        }
+      /*box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);*/
+      filter: brightness(75%);
+      /*animation: GlowChange 5s linear infinite alternate;*/
 
-        .imgContainer {
-            width: 300px;
-            height: 300px;
+      width: auto;
+      height: auto;
+      object-position: 50% 50%;
+      position: relative;
+      background-color: rgba(0, 0, 0, 0.411);
+    }
 
-            border-radius: 20px;
-            display: inline-block;
-            overflow: hidden;
+    .imgContainer {
+      width: 300px;
+      height: 300px;
+      border-radius: 20px;
+      display: inline-block;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-            display:flex;
-            align-items: center;
-            justify-content: center;
-        }
-        @keyframes GlowChange {
-            0% {
-                box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);
-            }
-            50% {
-                box-shadow: 0px 0px 15px 5px rgb(17, 177, 38);
-            }
-            100% {
-                box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);
-            }
-        }
+    @keyframes GlowChange {
+      0% {
+        box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);
+      }
 
-        .container{
-            display:flex;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 25px;
-            flex-wrap: nowrap;
-        }
-        
-        .newContainer{
-            width: 900px;
-            height: 250px;
-            align-items: center;
-            display: inline-block;
+      50% {
+        box-shadow: 0px 0px 15px 5px rgb(17, 177, 38);
+      }
 
-            background-repeat:no-repeat; /* for vertical repeat */
-            background-repeat:no-repeat; /* for horizontal repeat */
-            background-size: cover;
-            background-position: center;
-            
-            
-            
-            border-bottom-right-radius: 50px;
-            border-top-right-radius: 50px;
-        }
+      100% {
+        box-shadow: 0px 0px 15px 5px rgba(17, 177, 39, 0.404);
+      }
+    }
 
-        @keyframes FadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 0.9;
-            }
-        }
+    .container {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 25px;
+      flex-wrap: nowrap;
+    }
 
-        .text{
-            padding: 0px;
-            margin: 4px;
-            padding-left: 15px;
-            padding-top: 15px;
-            
-            color: antiquewhite;
-            
-           
-            text-overflow: ellipsis;
-            
-            overflow: hidden;
+    .newContainer {
+      width: 900px;
+      height: 250px;
+      align-items: center;
+      display: inline-block;
+      background-repeat: no-repeat;
+      /* for vertical repeat */
+      background-repeat: no-repeat;
+      /* for horizontal repeat */
+      background-size: cover;
+      background-position: center;
+      border-bottom-right-radius: 50px;
+      border-top-right-radius: 50px;
+    }
 
-            opacity: 0;
-            animation: FadeIn 1s ease-in-out 1s forwards;
-            transition: all 2s;
+    @keyframes FadeIn {
+      0% {
+        opacity: 0;
+      }
 
-            font-family: "Arial, Helvetica, sans-serif";
-            margin-right: 10px;
-        }
+      100% {
+        opacity: 0.9;
+      }
+    }
 
-        h1{
-            font-size: 50px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    @keyframes marquee {
+      0% {
+        transform: translate(0, 0);
+      }
 
-        h2{
-            font-size: 40px;
-            height: 3em;
-            line-height: 1.5em;
-            white-space: none;
-        }
+      100% {
+        transform: translate(-200%, 0);
+      }
+    }
 
-        
-    </style>
+    .text {
+      padding: 0px;
+      margin: 4px;
+      padding-left: 15px;
+      padding-top: 15px;
+      color: antiquewhite;
+      opacity: 0;
+      font-family: "Arial, Helvetica, sans-serif";
+      margin-right: 10px;
+    }
+
+    h1 {
+      font-size: 70px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    h2 {
+      font-size: 65px;
+      white-space: none;
+      overflow: visible;
+    }
+
+    .command {
+      color: antiquewhite;
+      font-family: "Arial, Helvetica, sans-serif";
+      font-size: 50px;
+      bottom: 51%;
+      position: absolute;
+      margin-left: 10px;
+      font-weight: bold;
+      opacity: 0;
+      animation-name: blink;
+      animation-duration: 20s;
+      animation-delay: 1s;
+      animation-iteration-count: infinite;
+      animation-direction: normal;
+      animation-timing-function: linear;
+    }
+
+    .marquee {
+      margin: 0 auto;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .marquee h2 {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 0;
+      }
+
+      30% {
+        opacity: 1;
+      }
+
+      70% {
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container" id="container">
+  <div class="container" id="container">
     <div class="imgContainer" id="imgContainer">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU" class="image" id="cover">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU"
+        class="image" id="cover">
     </div>
-    <div class="newContainer" id = "newContainer" style='background-image: linear-gradient(rgba(0, 0, 0, 0.397), rgba(0, 0, 0, 0.400)),url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU");'>
-        <h1 class="text" id="title">Waiting for a new title</h1>
-        <h2 class="text" id="chapter">Update the informatioon or simply change to a new title. If the issue persists, reload the page</h2>
+    <div class="newContainer" id="newContainer"
+      style='background-image: linear-gradient(rgba(0, 0, 0, 0.397), rgba(0, 0, 0, 0.400)),url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0tfBHqGdI6BTA-2pwLWzquGKp-5yICQrfHhlRZ1eK9ksSqPsgLXiSV42RWKIfeciwnA0&usqp=CAU");'>
+      <h1 class="text" id="title">Waiting for a new title</h1>
+      <div class="" id="marquee">
+        <h2 class="text scroll" id="chapter">Update the informatioon to see something appearing</h2>
+      </div>
+      <div class="command" id="command">!musique</div>
     </div>
-    </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
-    <script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+  <script>
+    function Imagetransition(reverse,image,title,chapter) {
+      return new Promise(function (resolve, reject) {
+        opacity = (reverse == true ? document.getElementById("cover").style.filter.replace("brightness(", "").replace("%)", "") : 0)
+        opacity2 = (reverse == true ? 1 : 0)
+        var id = setInterval(changeOpacity, 5);
+
+        function changeOpacity() {
+          if(image == true){
+            document.getElementById("cover").style.filter = `brightness(${opacity}%)`
+          }
+          if(title == true){
+            document.getElementById("title").style.opacity = opacity2
+          }
+          if(chapter == true){
+            document.getElementById("chapter").style.opacity = opacity2
+          }
+          if (reverse == true) {
+            opacity = opacity - .75
+            opacity2 = opacity2 - .01
+            if (opacity <= 0|| opacity2 <= 0) {
+              clearInterval(id)
+              resolve()
+            }
+          } else {
+            opacity = opacity + .75
+            opacity2 = opacity2 + .01
+            if (opacity >= 75 || opacity2 >= 1) {
+              clearInterval(id)
+              resolve()
+            }
+          }
+
+        }
+
+      })
+    }
+
+
+
     let usedPreset = undefined
-      let params = (new URL(document.location)).searchParams;
-      let token = params.get("token");
-      var socket = io("http://129.151.84.152:3000?token="+token);
-      socket.emit("refresh", token);
-      socket.on("data", (data) => {
-        console.log("Data received:",data)
-        if((data.usedPreset != usedPreset) && usedPreset!=undefined){location.reload();}
-        usedPreset = data.usedPreset 
-
-        if(data.platform.toLowerCase() == "youtube"){
-          document.getElementById("cover").style.height = "150%"
-        }else{
-          document.getElementById("cover").style.height = "300px"
-        }
-        const cfg = data.config[data.platform.toLowerCase()] || {displayTitle:true, displayChapter:true, displayPause:false}
-        if(data.paused == false){
-        document.getElementById("container").style.display = "flex"
-        document.getElementById("title").innerHTML = data.title
-        if(data.chapter.length > 95){
-            data.chapter = data.chapter.slice(0,92)+"..."
-        }
-        document.getElementById("chapter").innerHTML = data.chapter
-        document.getElementById("cover").style.filter = "brightness(75%)"
-        document.getElementById("cover").src = data.imageUrl
-        document.getElementById("newContainer").style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.600), rgba(0, 0, 0, 0.600)),url("${data.imageUrl}")`
-
-        if(data.title == "" || cfg.displayTitle == false){
+    let params = (new URL(document.location)).searchParams;
+    let token = params.get("token");
+    let lastImgUrl = ""
+    let lastTitle = ""
+    let lastChapter = ""
+    var socket = io("http://129.151.84.152:3000?token=" + token);
+    socket.emit("refresh", token);
+    socket.on("data", async (data) => {
+      console.log("Data received:", data)
+      if ((data.usedPreset != usedPreset) && usedPreset != undefined) { location.reload(); }
+      usedPreset = data.usedPreset
+      const cfg = data.config[data.platform.toLowerCase()] || { displayTitle: true, displayChapter: true, displayPause: false }
+      if (data.title == "" || cfg.displayTitle == false) {
           document.getElementById("title").style.display = "none"
-        }else{
-          document.getElementById("title").innerHTML = data.title
+        } else {
+          document.getElementById("title").innerHTML = data.title.charAt(0).toUpperCase() + data.title.slice(1);
           document.getElementById("title").style.display = "block"
         }
 
 
-        if(data.chapter == "" || cfg.displayChapter == false){
+        if (data.chapter == "" || cfg.displayChapter == false) {
           document.getElementById("chapter").style.display = "none"
-        }else{
-          document.getElementById("chapter").innerHTML = data.chapter
+        } else {
+          document.getElementById("chapter").innerHTML = data.chapter.charAt(0).toUpperCase() + data.chapter.slice(1);
           document.getElementById("chapter").style.display = "block"
 
         }
-        }else{
-          if(cfg.displayPause == true){
-            document.getElementById("title").innerHTML = cfg.pausedText
-            document.getElementById("title").style.display = "block"
-            document.getElementById("chapter").style.display = "none"
-            document.getElementById("container").style.display = "flex"
-            document.getElementById("cover").style.filter = "brightness(25%)"
-          }else{
-            document.getElementById("chapter").style.display = "none"
-            document.getElementById("title").style.display = "none"
-            document.getElementById("container").style.display = "none"
-          }
-        }
+      document.getElementById("cover").style.filter = `brightness0%)`
+      if(data.chapter.length >= 35){
+        document.getElementById("marquee").classList.add("marquee");
+      }else{
+        document.getElementById("marquee").classList.remove("marquee");
+      }
 
-        
-        
+      if (data.platform.toLowerCase() == "youtube") {
+        document.getElementById("cover").style.height = "150%"
+      } else {
+        document.getElementById("cover").style.height = "300px"
+      }
+
+      if (data.command != undefined) {
+        document.getElementById("command").innerHTML = data.command
+      } else {
+        document.getElementById("command").innerHTML = ""
+      }
+
+      if (data.paused == false) {
+        document.getElementById("container").style.display = "flex"
+        document.getElementById("title").innerHTML = data.title.charAt(0).toUpperCase() + data.title.slice(1);
+        if (data.chapter.length > 95) {
+          data.chapter = data.chapter.slice(0, 92) + "..."
+        }
+        document.getElementById("chapter").innerHTML = data.chapter.charAt(0).toUpperCase() + data.chapter.slice(1);
+        document.getElementById("cover").style.filter = "brightness(75%)"
+        document.getElementById("cover").src = data.imageUrl
+        document.getElementById("newContainer").style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.600), rgba(0, 0, 0, 0.600)),url("${data.imageUrl}")`
+
+      } else {
+        if (cfg.displayPause == true) {
+          document.getElementById("title").innerHTML = cfg.pausedText
+          document.getElementById("title").style.display = "block"
+          document.getElementById("chapter").style.display = "none"
+          document.getElementById("container").style.display = "flex"
+          document.getElementById("cover").style.filter = "brightness(25%)"
+        } else {
+          document.getElementById("chapter").style.display = "none"
+          document.getElementById("title").style.display = "none"
+          document.getElementById("container").style.display = "none"
+        }
+      }
+      await Imagetransition(false,lastImgUrl!=data.imageUrl,lastTitle!=data.title,lastChapter!= data.chapter)
+      
+      lastImgUrl = data.imageUrl
+      lastChapter = data.chapter
+      lastTitle = data.title
     })
-    </script>
+  </script>
 </body>
+
 </html>
