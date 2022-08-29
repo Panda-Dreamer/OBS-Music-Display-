@@ -96,6 +96,13 @@ function Instance(token, senderVersion, language) {
         displayAuthor: true,
         pausedText: "The music is currently paused",
       },
+      epidemic: {
+        themeId: "default",
+        displayPause: true,
+        displayTitle: true,
+        displayAuthor: true,
+        pausedText: "The music is currently paused",
+      }
     },
 
     this.url = "",
